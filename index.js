@@ -114,6 +114,16 @@ async function poloniex() {
     return resString;
 }
 
+async function coinbaseDAI() {
+    const { data } = await axios.get("https://api.coinbase.com/v2/exchange-rates?currency=DAI");
+    const exchange_rate = data.data.rates.USDC;
+
+    let resString = "Coinbase Exchange Rate\n=====================\n";
+    resString += "DAI/USDC: " + exchange_rate + "\n";
+
+    return resString;
+}
+
 async function main() {
     const bot = new TelegramBot(token);
 
@@ -125,6 +135,8 @@ async function main() {
     bot.sendMessage("@defi_lend_rate", poloniexRes);
     const bitfinexRes = await bitfinex();
     bot.sendMessage("@defi_lend_rate", bitfinexRes);
+    const coinbaseRes = await coinbaseDAI();
+    bot.sendMessage("@defi_lend_rate", coinbaseRes);
     return;
 }
 
